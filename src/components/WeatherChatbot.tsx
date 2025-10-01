@@ -77,7 +77,7 @@ const WeatherChatbot = ({ location, weatherData }: WeatherChatbotProps) => {
       <Button
         onClick={() => setIsOpen(true)}
         size="lg"
-        className="fixed bottom-6 right-6 rounded-full w-14 h-14 shadow-strong hover:scale-110 transition-transform"
+        className="fixed bottom-6 right-6 rounded-full w-14 h-14 shadow-strong hover:scale-110 transition-transform animate-glow-pulse"
       >
         <MessageCircle className="w-6 h-6" />
       </Button>
@@ -89,7 +89,7 @@ const WeatherChatbot = ({ location, weatherData }: WeatherChatbotProps) => {
       {/* Header */}
       <div className="flex items-center justify-between p-4 border-b border-border">
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-gradient-earth rounded-full flex items-center justify-center">
+          <div className="w-8 h-8 bg-gradient-primary rounded-full flex items-center justify-center">
             <MessageCircle className="w-4 h-4 text-white" />
           </div>
           <div>

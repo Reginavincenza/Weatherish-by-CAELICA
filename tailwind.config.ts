@@ -53,9 +53,9 @@ export default {
         danger: "hsl(var(--danger))",
       },
       backgroundImage: {
-        'gradient-earth': 'var(--gradient-earth)',
-        'gradient-ocean': 'var(--gradient-ocean)',
-        'gradient-sky': 'var(--gradient-sky)',
+        'gradient-primary': 'var(--gradient-primary)',
+        'gradient-hero': 'var(--gradient-hero)',
+        'gradient-accent': 'var(--gradient-accent)',
       },
       boxShadow: {
         'soft': 'var(--shadow-soft)',
