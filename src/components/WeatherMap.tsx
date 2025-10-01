@@ -88,25 +88,36 @@ const WeatherMap = ({ onLocationSelect, selectedLocation }: WeatherMapProps) => 
     };
   }, [onLocationSelect]);
 
-  // Update marker when selectedLocation changes externally
+  // Update marker when selectedLocation changes externally (with safety checks)
   useEffect(() => {
-    if (selectedLocation && mapRef.current) {
-      const customIcon = L.divIcon({
-        html: `<div class="flex items-center justify-center w-10 h-10 bg-primary rounded-full shadow-strong">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
-            <circle cx="12" cy="10" r="3"/>
-          </svg>
-        </div>`,
-        className: "custom-marker",
-        iconSize: [40, 40],
-        iconAnchor: [20, 40],
-      });
+    // Safety checks: ensure map is initialized and has a valid container
+    if (!selectedLocation || !mapRef.current || !mapRef.current.getContainer()) {
+      return;
+    }
 
-      if (markerRef.current) {
+    const customIcon = L.divIcon({
+      html: `<div class="flex items-center justify-center w-10 h-10 bg-primary rounded-full shadow-strong">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
+          <circle cx="12" cy="10" r="3"/>
+        </svg>
+      </div>`,
+      className: "custom-marker",
+      iconSize: [40, 40],
+      iconAnchor: [20, 40],
+    });
+
+    // Remove existing marker safely
+    if (markerRef.current) {
+      try {
         markerRef.current.remove();
+      } catch (e) {
+        console.warn("Error removing marker:", e);
       }
+    }
 
+    // Add new marker with error handling
+    try {
       const marker = L.marker([selectedLocation.lat, selectedLocation.lon], {
         icon: customIcon,
       }).addTo(mapRef.current);
@@ -120,6 +131,8 @@ const WeatherMap = ({ onLocationSelect, selectedLocation }: WeatherMapProps) => 
       `);
 
       mapRef.current.setView([selectedLocation.lat, selectedLocation.lon], 8);
+    } catch (error) {
+      console.error("Error adding marker:", error);
     }
   }, [selectedLocation]);
 
