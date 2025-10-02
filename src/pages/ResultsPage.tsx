@@ -1,6 +1,4 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { ArrowLeft } from "lucide-react";
 import Dashboard from "@/components/Dashboard";
 import earthBackground from "@/assets/earth-background.jpg";
 
@@ -49,23 +47,19 @@ const ResultsPage = () => {
       style={{ backgroundImage: `url(${earthBackground})` }}
     >
       {/* Overlay for better text readability */}
-      <div className="absolute inset-0 bg-background/85 backdrop-blur-sm"></div>
+      <div className="absolute inset-0 bg-background/60 backdrop-blur-sm"></div>
 
       {/* Header */}
-      <header className="relative z-10 bg-gradient-primary shadow-strong">
-        <div className="container mx-auto px-6 py-6 flex items-center justify-between">
-          <div>
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-[hsl(45,90%,55%)] to-[hsl(270,60%,50%)] bg-clip-text text-transparent">Weatherish</h1>
-            <p className="text-secondary mt-2">Analysis Results</p>
-          </div>
-          <Button
-            variant="secondary"
+      <header className="relative z-10 bg-gradient-primary/60 shadow-strong">
+        <div className="container mx-auto px-6 py-6 text-center">
+          <h1 
+            className="text-4xl font-bold bg-gradient-to-r from-[hsl(45,90%,55%)] to-[hsl(270,60%,50%)] bg-clip-text text-transparent cursor-pointer hover:opacity-80 transition-opacity"
+            style={{ filter: 'drop-shadow(0 0 20px hsl(220, 80%, 50%))' }}
             onClick={() => navigate("/")}
-            className="flex items-center gap-2"
           >
-            <ArrowLeft className="h-4 w-4" />
-            New Query
-          </Button>
+            Weatherish
+          </h1>
+          <p className="text-secondary mt-2">Analysis Results</p>
         </div>
       </header>
 

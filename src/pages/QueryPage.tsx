@@ -191,9 +191,9 @@ const QueryPage = () => {
   return (
     <div className="min-h-screen flex flex-col">
       {/* Header - relative positioning so it scrolls */}
-      <header className="relative z-10 bg-gradient-primary shadow-strong">
-        <div className="container mx-auto px-6 py-6">
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-[hsl(45,90%,55%)] to-[hsl(270,60%,50%)] bg-clip-text text-transparent">Weatherish</h1>
+      <header className="relative z-10 bg-gradient-primary/60 shadow-strong">
+        <div className="container mx-auto px-6 py-6 text-center">
+          <h1 className="text-4xl font-bold bg-gradient-to-r from-[hsl(45,90%,55%)] to-[hsl(270,60%,50%)] bg-clip-text text-transparent" style={{ filter: 'drop-shadow(0 0 20px hsl(220, 80%, 50%))' }}>Weatherish</h1>
           <p className="text-secondary mt-2">NASA Earth Observations for Event Planning</p>
         </div>
       </header>
