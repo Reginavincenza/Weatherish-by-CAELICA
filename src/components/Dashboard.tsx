@@ -22,35 +22,35 @@ const Dashboard = ({ weatherData, location, onExport }: DashboardProps) => {
   const stats = [
     {
       title: "Temperature",
-      value: `${weatherData.temperature?.mean?.toFixed(1) || "--"}°C`,
+      value: `${weatherData.statistics?.temperature?.mean?.toFixed(1) || "--"}°C`,
       icon: Thermometer,
       change: "+2.3°C from average",
       trend: "up",
-      risk: weatherData.temperature?.probability > 0.5 ? "high" : weatherData.temperature?.probability > 0.3 ? "medium" : "low",
+      risk: weatherData.probabilities?.highTemperature > 0.5 ? "high" : weatherData.probabilities?.highTemperature > 0.3 ? "medium" : "low",
     },
     {
       title: "Precipitation",
-      value: `${weatherData.precipitation?.mean?.toFixed(1) || "--"} mm`,
+      value: `${weatherData.statistics?.precipitation?.mean?.toFixed(1) || "--"} mm`,
       icon: Droplets,
       change: "15% chance of rain",
       trend: "down",
-      risk: weatherData.precipitation?.probability > 0.3 ? "high" : weatherData.precipitation?.probability > 0.15 ? "medium" : "low",
+      risk: weatherData.probabilities?.heavyRain > 0.3 ? "high" : weatherData.probabilities?.heavyRain > 0.15 ? "medium" : "low",
     },
     {
       title: "Wind Speed",
-      value: `${weatherData.windSpeed?.mean?.toFixed(1) || "--"} m/s`,
+      value: `${weatherData.statistics?.windSpeed?.mean?.toFixed(1) || "--"} m/s`,
       icon: Wind,
       change: "Light breeze",
       trend: "stable",
-      risk: weatherData.windSpeed?.probability > 0.4 ? "high" : weatherData.windSpeed?.probability > 0.2 ? "medium" : "low",
+      risk: weatherData.probabilities?.highWind > 0.4 ? "high" : weatherData.probabilities?.highWind > 0.2 ? "medium" : "low",
     },
     {
       title: "Humidity",
-      value: `${weatherData.humidity?.mean?.toFixed(0) || "--"}%`,
+      value: `${weatherData.statistics?.humidity?.mean?.toFixed(0) || "--"}%`,
       icon: CloudRain,
       change: "Moderate",
       trend: "stable",
-      risk: weatherData.humidity?.probability > 0.6 ? "high" : weatherData.humidity?.probability > 0.4 ? "medium" : "low",
+      risk: weatherData.probabilities?.highHumidity > 0.6 ? "high" : weatherData.probabilities?.highHumidity > 0.4 ? "medium" : "low",
     },
   ];
 
@@ -85,7 +85,7 @@ const Dashboard = ({ weatherData, location, onExport }: DashboardProps) => {
       <div className="glass-panel p-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 bg-gradient-primary rounded-full flex items-center justify-center">
-            <Calendar className="w-5 h-5 text-white" />
+            <Calendar className="w-5 h-5" style={{ color: 'hsl(45, 90%, 55%)' }} />
           </div>
           <div>
             <h3 className="font-semibold">{location.name}</h3>
@@ -114,7 +114,7 @@ const Dashboard = ({ weatherData, location, onExport }: DashboardProps) => {
                 <CardTitle className="text-sm font-medium text-muted-foreground">
                   {stat.title}
                 </CardTitle>
-                <Icon className="w-4 h-4 text-primary" />
+                <Icon className="w-4 h-4" style={{ color: 'hsl(45, 90%, 55%)' }} />
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">{stat.value}</div>
@@ -138,7 +138,7 @@ const Dashboard = ({ weatherData, location, onExport }: DashboardProps) => {
         <Card className="glass-panel">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <TrendingUp className="w-5 h-5 text-primary" />
+              <TrendingUp className="w-5 h-5" style={{ color: 'hsl(45, 90%, 55%)' }} />
               Historical Trend (5 Years)
             </CardTitle>
           </CardHeader>
@@ -159,18 +159,18 @@ const Dashboard = ({ weatherData, location, onExport }: DashboardProps) => {
                 <Line
                   type="monotone"
                   dataKey="temp"
-                  stroke="hsl(var(--primary))"
+                  stroke="hsl(45, 90%, 55%)"
                   strokeWidth={2}
                   name="Temperature (°C)"
-                  dot={{ fill: "hsl(var(--primary))" }}
+                  dot={{ fill: "hsl(45, 90%, 55%)" }}
                 />
                 <Line
                   type="monotone"
                   dataKey="precip"
-                  stroke="hsl(var(--accent))"
+                  stroke="hsl(35, 75%, 43%)"
                   strokeWidth={2}
                   name="Precipitation (mm)"
-                  dot={{ fill: "hsl(var(--accent))" }}
+                  dot={{ fill: "hsl(35, 75%, 43%)" }}
                 />
               </LineChart>
             </ResponsiveContainer>
@@ -181,7 +181,7 @@ const Dashboard = ({ weatherData, location, onExport }: DashboardProps) => {
         <Card className="glass-panel">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Calendar className="w-5 h-5 text-primary" />
+              <Calendar className="w-5 h-5" style={{ color: 'hsl(45, 90%, 55%)' }} />
               Threshold Exceedance Probability
             </CardTitle>
           </CardHeader>
@@ -199,7 +199,7 @@ const Dashboard = ({ weatherData, location, onExport }: DashboardProps) => {
                   }}
                   formatter={(value: number) => `${(value * 100).toFixed(0)}%`}
                 />
-                <Bar dataKey="probability" fill="hsl(var(--primary))" radius={[8, 8, 0, 0]} />
+                <Bar dataKey="probability" fill="hsl(45, 90%, 55%)" radius={[8, 8, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </CardContent>
@@ -214,14 +214,14 @@ const Dashboard = ({ weatherData, location, onExport }: DashboardProps) => {
         <CardContent className="space-y-3">
           <p className="text-sm leading-relaxed">
             <strong>Temperature:</strong> Based on 20+ years of historical data from NASA POWER, 
-            there is a <span className="font-semibold text-primary">{((weatherData.temperature?.probability || 0.35) * 100).toFixed(0)}% probability</span> that 
-            temperature will exceed {weatherData.temperature?.threshold || 30}°C on this date at this location. 
-            The historical average for this period is {weatherData.temperature?.mean?.toFixed(1) || "30.2"}°C.
+            there is a <span className="font-semibold" style={{ color: 'hsl(45, 90%, 55%)' }}>{((weatherData.probabilities?.highTemperature || 0.35) * 100).toFixed(0)}% probability</span> that 
+            temperature will exceed {weatherData.thresholds?.temperature || 30}°C on this date at this location. 
+            The historical average for this period is {weatherData.statistics?.temperature?.mean?.toFixed(1) || "30.2"}°C.
           </p>
           <p className="text-sm leading-relaxed">
-            <strong>Precipitation:</strong> Historical analysis indicates a <span className="font-semibold text-accent">{((weatherData.precipitation?.probability || 0.15) * 100).toFixed(0)}% chance</span> of 
-            precipitation exceeding {weatherData.precipitation?.threshold || 10}mm. Average rainfall for this date 
-            is {weatherData.precipitation?.mean?.toFixed(1) || "5.2"}mm.
+            <strong>Precipitation:</strong> Historical analysis indicates a <span className="font-semibold" style={{ color: 'hsl(35, 75%, 43%)' }}>{((weatherData.probabilities?.heavyRain || 0.15) * 100).toFixed(0)}% chance</span> of 
+            precipitation exceeding {weatherData.thresholds?.precipitation || 10}mm. Average rainfall for this date 
+            is {weatherData.statistics?.precipitation?.mean?.toFixed(1) || "5.2"}mm.
           </p>
           <p className="text-sm text-muted-foreground mt-4">
             <strong>Data Source:</strong> NASA POWER API (Prediction Of Worldwide Energy Resources) | 

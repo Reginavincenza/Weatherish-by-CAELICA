@@ -167,6 +167,7 @@ const QueryPage = () => {
         statistics,
         probabilities,
         historicalData,
+        thresholds: params.thresholds,
       };
 
       setIsLoading(false);

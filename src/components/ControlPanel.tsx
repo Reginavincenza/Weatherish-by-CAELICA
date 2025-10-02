@@ -1,11 +1,12 @@
 import { useState } from "react";
-import { Calendar, Droplets, Wind, Thermometer, CloudRain } from "lucide-react";
+import { Calendar, Droplets, Wind, Thermometer, CloudRain, HelpCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Calendar as CalendarComponent } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { format } from "date-fns";
 
 interface ControlPanelProps {
@@ -105,16 +106,31 @@ const ControlPanel = ({ onAnalyze, isLoading }: ControlPanelProps) => {
                   <Label htmlFor={`${key}-threshold`} className="text-sm text-muted-foreground">
                     Threshold:
                   </Label>
-                  <Input
-                    id={`${key}-threshold`}
-                    type="number"
-                    value={thresholds[key]}
-                    onChange={(e) =>
-                      setThresholds((prev) => ({ ...prev, [key]: Number(e.target.value) }))
-                    }
-                    className="w-20"
-                  />
+                  <div className="relative">
+                    <Input
+                      id={`${key}-threshold`}
+                      type="number"
+                      value={thresholds[key]}
+                      onChange={(e) =>
+                        setThresholds((prev) => ({ ...prev, [key]: Number(e.target.value) }))
+                      }
+                      className="w-20"
+                      style={{ boxShadow: '0 0 15px hsl(220, 80%, 50% / 0.3)' }}
+                    />
+                  </div>
                   <span className="text-sm text-muted-foreground">{unit}</span>
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <HelpCircle className="w-4 h-4 text-muted-foreground cursor-help" />
+                      </TooltipTrigger>
+                      <TooltipContent className="max-w-xs">
+                        <p className="text-sm">
+                          Ask AI: "What does the {label.toLowerCase()} threshold mean for my event?"
+                        </p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
                 </div>
               )}
             </div>
