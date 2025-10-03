@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from "recharts";
-import { Thermometer, Droplets, Wind, CloudRain, TrendingUp, Calendar } from "lucide-react";
+import { Thermometer, Droplets, Wind, CloudRain, TrendingUp, Calendar, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Download } from "lucide-react";
 
@@ -18,6 +18,14 @@ const Dashboard = ({ weatherData, location, onExport }: DashboardProps) => {
       </div>
     );
   }
+
+  const handleExplainSummary = () => {
+    const summaryText = `Temperature Analysis: The mean temperature is ${weatherData.statistics?.temperature?.mean?.toFixed(1) || 'N/A'}°C with a standard deviation of ${weatherData.statistics?.temperature?.stdDev?.toFixed(1) || 'N/A'}°C. Range: ${weatherData.statistics?.temperature?.min?.toFixed(1) || 'N/A'}°C to ${weatherData.statistics?.temperature?.max?.toFixed(1) || 'N/A'}°C. There is a ${((weatherData.probabilities?.highTemperature || 0.35) * 100).toFixed(0)}% probability that temperature will exceed ${weatherData.thresholds?.temperature || 30}°C. Precipitation Probability: ${((weatherData.probabilities?.heavyRain || 0.15) * 100).toFixed(0)}% chance of precipitation exceeding ${weatherData.thresholds?.precipitation || 10}mm. Average rainfall is ${weatherData.statistics?.precipitation?.mean?.toFixed(1) || 'N/A'}mm. Data Source: NASA POWER Project - Powered by NASA's satellite observations and meteorological reanalysis from 2000-2024.`;
+    
+    // Open chatbot and send the summary for explanation
+    const event = new CustomEvent('openChatbot', { detail: { message: `Please explain this weather analysis in simple terms: ${summaryText}` } });
+    window.dispatchEvent(event);
+  };
 
   const stats = [
     {
@@ -209,7 +217,20 @@ const Dashboard = ({ weatherData, location, onExport }: DashboardProps) => {
       {/* Summary */}
       <Card className="glass-panel">
         <CardHeader>
-          <CardTitle>Weather Analysis Summary</CardTitle>
+          <CardTitle className="flex items-center gap-2 justify-between">
+            <div className="flex items-center gap-2">
+              <FileText className="w-5 h-5" style={{ color: 'hsl(45, 90%, 55%)' }} />
+              Weather Analysis Summary
+            </div>
+            <Button 
+              variant="outline" 
+              size="sm"
+              onClick={handleExplainSummary}
+              className="text-xs"
+            >
+              Explain
+            </Button>
+          </CardTitle>
         </CardHeader>
         <CardContent className="space-y-3">
           <p className="text-sm leading-relaxed">

@@ -26,6 +26,26 @@ const WeatherChatbot = ({ location, weatherData }: WeatherChatbotProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
+  // Listen for the openChatbot event
+  useEffect(() => {
+    const handleOpenChatbot = (event: CustomEvent) => {
+      setIsOpen(true);
+      if (event.detail?.message) {
+        setInput(event.detail.message);
+        // Auto-send the message after a short delay
+        setTimeout(() => {
+          const sendButton = document.querySelector('[data-chatbot-send]') as HTMLButtonElement;
+          sendButton?.click();
+        }, 100);
+      }
+    };
+
+    window.addEventListener('openChatbot', handleOpenChatbot as EventListener);
+    return () => {
+      window.removeEventListener('openChatbot', handleOpenChatbot as EventListener);
+    };
+  }, []);
+
   useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
@@ -77,7 +97,7 @@ const WeatherChatbot = ({ location, weatherData }: WeatherChatbotProps) => {
       <Button
         onClick={() => setIsOpen(true)}
         size="lg"
-        className="fixed bottom-6 right-6 rounded-full w-14 h-14 shadow-strong hover:scale-110 transition-transform animate-glow-pulse z-50"
+        className="fixed bottom-6 right-6 rounded-full w-14 h-14 shadow-strong hover:scale-110 transition-transform animate-glow-pulse z-[100]"
       >
         <MessageCircle className="w-6 h-6" />
       </Button>
@@ -85,7 +105,7 @@ const WeatherChatbot = ({ location, weatherData }: WeatherChatbotProps) => {
   }
 
   return (
-    <div className="fixed bottom-6 right-6 w-96 h-[500px] glass-panel flex flex-col shadow-strong animate-in slide-in-from-bottom-4">
+    <div className="fixed bottom-6 right-6 w-96 h-[500px] glass-panel flex flex-col shadow-strong animate-in slide-in-from-bottom-4 z-[100]">
       {/* Header */}
       <div className="flex items-center justify-between p-4 border-b border-border">
         <div className="flex items-center gap-2">
@@ -147,7 +167,7 @@ const WeatherChatbot = ({ location, weatherData }: WeatherChatbotProps) => {
             placeholder="Ask about the weather..."
             disabled={isLoading}
           />
-          <Button onClick={handleSend} disabled={isLoading || !input.trim()} size="icon">
+          <Button onClick={handleSend} disabled={isLoading || !input.trim()} size="icon" data-chatbot-send>
             <Send className="w-4 h-4" />
           </Button>
         </div>
