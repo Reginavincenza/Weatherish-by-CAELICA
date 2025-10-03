@@ -182,7 +182,7 @@ Samia Rahman - Data Scientist - @github
 Noor-E-Jannat - AI/ML Engineer - @github
 
 
-### ** Acknowledgments**
+###  Acknowledgments
 NASA for providing open Earth observation data
 Space Apps Challenge for inspiring this project
 Anthropic for AI capabilities
