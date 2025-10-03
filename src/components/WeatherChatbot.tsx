@@ -61,16 +61,48 @@ const WeatherChatbot = ({ location, weatherData }: WeatherChatbotProps) => {
     setIsLoading(true);
 
     try {
-      // Simulate AI response (replace with actual Gemini API call)
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
       const context = location
         ? `Location: ${location.name} (${location.lat.toFixed(4)}, ${location.lon.toFixed(4)})`
         : "No location selected";
 
-      const response = `Based on NASA weather data for ${context}, I can help you understand the conditions. The current analysis shows temperature patterns and precipitation probabilities. Would you like me to explain specific metrics or compare with other locations?`;
+      const weatherContext = weatherData
+        ? `Weather Data: Temperature stats: ${JSON.stringify(weatherData.statistics?.temperature || {})}, Precipitation probability: ${weatherData.probabilities?.heavyRain || 'N/A'}%, Wind Speed: ${JSON.stringify(weatherData.statistics?.windSpeed || {})}, Humidity: ${JSON.stringify(weatherData.statistics?.humidity || {})}`
+        : "No weather data available";
 
-      setMessages((prev) => [...prev, { role: "assistant", content: response }]);
+      const systemPrompt = `You are a helpful weather analysis assistant. You have access to NASA POWER weather data. Current context: ${context}. ${weatherContext}. Provide clear, concise answers about weather conditions, patterns, and analysis.`;
+
+      const response = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=AIzaSyA1UHxUEh6BN6P338dpatzVcSNP-8zZkqk`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            contents: [
+              {
+                parts: [
+                  { text: systemPrompt },
+                  { text: userMessage }
+                ]
+              }
+            ],
+            generationConfig: {
+              temperature: 0.7,
+              maxOutputTokens: 1024,
+            }
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`API Error: ${response.status}`);
+      }
+
+      const data = await response.json();
+      const aiResponse = data.candidates?.[0]?.content?.parts?.[0]?.text || "I couldn't generate a response.";
+
+      setMessages((prev) => [...prev, { role: "assistant", content: aiResponse }]);
     } catch (error) {
       console.error("Chat error:", error);
       setMessages((prev) => [
