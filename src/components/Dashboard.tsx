@@ -3,6 +3,7 @@ import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, R
 import { Thermometer, Droplets, Wind, CloudRain, TrendingUp, Calendar, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Download } from "lucide-react";
+import { format } from "date-fns";
 
 interface DashboardProps {
   weatherData: any;
@@ -147,7 +148,7 @@ const Dashboard = ({ weatherData, location, onExport }: DashboardProps) => {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <TrendingUp className="w-5 h-5" style={{ color: 'hsl(45, 90%, 55%)' }} />
-              Historical Trend (5 Years)
+              Historical Trend (5 Years) {weatherData.date && `of ${format(new Date(weatherData.date), 'dd MMMM yyyy')}`}
             </CardTitle>
           </CardHeader>
           <CardContent>
