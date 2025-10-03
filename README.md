@@ -125,8 +125,11 @@ npm run dev
 - Edit files directly within the Codespace and commit and push your changes once you're done.
 
 ### Getting API Keys
-OpenAI API: platform.openai.com
-NASA API: api.nasa.gov (free tier available)
+
+Gemini API: aistudio.google.com
+
+NASA API: api.nasa.gov 
+
 Mapbox: mapbox.com (optional, for enhanced maps)
 
 
@@ -158,8 +161,11 @@ Mapbox: mapbox.com (optional, for enhanced maps)
 **5. Chat with AI Assistant**
 
 Ask questions like:
+
 "Is it safe to hike here in July?"
+
 "What's the probability of rain?"
+
 "Compare this to last year"
 
 **6. Export Your Data**
@@ -169,6 +175,7 @@ Ask questions like:
 - All exports include metadata and data sources
 
 **Demo Live Link**
+
 Project demo live link: https://weatherish.lovable.app/
 
 
@@ -176,16 +183,16 @@ Project demo live link: https://weatherish.lovable.app/
 ### 👥 **Team CAELICA**
 **Meet the team behind Weatherish:**
 
-Tahera Toor - Designer, Backend Developer - @Reginavincenza
-Tasmiah Abrar Farah - UI Designer, Frontend Developer - @github
-Samia Rahman - Data Scientist - @github
-Noor-E-Jannat - AI/ML Engineer - @github
+- Tahera Toor - Designer, Backend Developer - @Reginavincenza
+- Tasmiah Abrar Farah - UI Designer, Frontend Developer - @github
+- Samia Rahman - Data Scientist - @github
+- Noor-E-Jannat - AI/ML Engineer - @github
 
 
 ###  Acknowledgments
-NASA for providing open Earth observation data
-Space Apps Challenge for inspiring this project
-Anthropic for AI capabilities
-Lovable for their Loveable designs
-Leaflet.js community for mapping tools
+- NASA for providing open Earth observation data
+- Space Apps Challenge for inspiring this project
+- Anthropic for AI capabilities
+- Lovable for their Loveable designs
+- Leaflet.js community for mapping tools
 
