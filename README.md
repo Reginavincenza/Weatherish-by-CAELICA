@@ -183,10 +183,10 @@ Project demo live link: https://weatherish.lovable.app/
 ### 👥 **Team CAELICA**
 **Meet the team behind Weatherish:**
 
-- Tahera Toor - Designer, Backend Developer - @Reginavincenza
-- Tasmiah Abrar Farah - UI Designer, Frontend Developer - @github
+- Tahera Toor - Designer, Backend Developer - [@Reginavincenza](https://github.com/Reginavincenza)
+- Tasmiah Abrar Farah - UI Designer, Frontend Developer -[ @TasmiahAbrarFarah](https://github.com/TasmiahAbrarFarah)
 - Samia Rahman - Data Scientist - @github
-- Noor-E-Jannat - AI/ML Engineer - @github
+- Noor-E-Jannat - AI/ML Engineer - [@Noor-E-Jannat20](https://github.com/Noor-E-Jannat20)
 
 
 ###  Acknowledgments
